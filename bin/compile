@@ -27,11 +27,11 @@ if [ -f $TRAEFIK_BINARY ]; then
   echo "-----> Using traefik binary from cache"
 else
   echo "-----> Downloading traefik binary"
-  curl -L $TRAEFIK_URL -o $TRAEFIK_BINARY
+  curl -s -L $TRAEFIK_URL -o $TRAEFIK_BINARY
 fi
 
 echo "-----> Setting permissions"
 chmod +x $TRAEFIK_BINARY
 
 echo "-----> Moving binary to the right place"
-mv $TRAEFIK_BINARY $BIN_PATH/
+cp $TRAEFIK_BINARY $BIN_PATH/
