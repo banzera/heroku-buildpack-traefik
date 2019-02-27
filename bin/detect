@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "heroku-buildpack-traefik"
+exit 0

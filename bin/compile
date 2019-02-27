@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+BIN_PATH="$BUILD_DIR/bin"
+LIB_PATH="$BUILD_DIR/vendor/wkhtmltox/lib"
+TMP_PATH="$BUILD_DIR/tmp"
+mkdir -p $CACHE_DIR $BIN_PATH $LIB_PATH $TMP_PATH
+
+if [[ -f "$ENV_DIR/TRAEFIK_VERSION" ]]; then
+  TRAEFIK_VERSION=$(cat "$ENV_DIR/TRAEFIK_VERSION")
+else
+  TRAEFIK_VERSION="1.7.9"
+fi
+
+TRAEFIK_URL="https://github.com/containous/traefik/releases/download/v${TRAEFIK_VERSION}/traefik_linux-amd64"
+TRAEFIK_BINARY="$CACHE_DIR/traefik_linux-amd64"
+
+BIN_DIR=$(cd $(dirname $0); pwd)
+
+if [ -f $TRAEFIK_BINARY ]; then
+  echo "-----> Using traefik binary from cache"
+else
+  echo "-----> Downloading traefik binary"
+  curl -L $TRAEFIK_URL -o $TRAEFIK_BINARY
+fi
+
+echo "-----> Setting permissions"
+chmod +x $TRAEFIK_BINARY
+
+echo "-----> Moving binary to the right place"
+mv $TRAEFIK_BINARY $BIN_PATH/
