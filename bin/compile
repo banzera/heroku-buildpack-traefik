@@ -34,4 +34,4 @@ echo "-----> Setting permissions"
 chmod +x $TRAEFIK_BINARY
 
 echo "-----> Moving binary to the right place"
-cp $TRAEFIK_BINARY $BIN_PATH/
+cp $TRAEFIK_BINARY $BIN_PATH/traefik
